@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿import re
 import argparse
 
@@ -22,3 +23,6 @@ if __name__ == '__main__':
 
     process_bbl(args.input, args.output)
     print(f"Written shortened names to {args.output}")
+=======
+
+>>>>>>> origin/main
