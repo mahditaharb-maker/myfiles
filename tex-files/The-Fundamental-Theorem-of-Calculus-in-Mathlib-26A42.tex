@@ -3,8 +3,21 @@
 % A Dependency-Guided Formal Exposition
 % Compile with: pdflatex (twice)
 % ============================================================
+% ---- verbatim / fancyvrb configuration ----------------------------
+% ---- custom abstract: heading + content ---------------------------
+% -------------------------------------------------------------------
+% ---- subject classification --------------------------------------
+% ---- sectioning fonts --------------------------------------------
+% ---- column-type tuning parameters -------------------------------
+% ---- column types ------------------------------------------------
+%% FIXED-MATH: pinned Mathlib commit used throughout the paper.
+% ---- title-case preservation -------------------------------------
+% ---- spacing inside \maketitle: title / author / abstract --------
+% ------------------------------------------------------------------
+
+
 \documentclass[11pt,reqno]{amsart}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{amsfonts}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -21,12 +34,10 @@
 %TCIDATA{Version=5.50.0.2960}
 %TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
 %TCIDATA{BibliographyScheme=Manual}
-%TCIDATA{LastRevised=Friday, October 09, 2026 16:06:47}
+%TCIDATA{LastRevised=Tuesday, October 13, 2026 16:49:35}
 %TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
 
 \IfFileExists{tcilatex.tex}{\input{tcilatex}}{}
-
-% ---- verbatim / fancyvrb configuration ----------------------------
 \fvset{frame=lines,
 	framerule=0.7pt,
 	rulecolor=\color{blue!60!black},
@@ -44,56 +55,37 @@
 	xleftmargin=6pt,
 	xrightmargin=6pt
 }
-
-% ---- custom abstract: heading + content ---------------------------
 \renewcommand{\abstractname}{\fontsize{16}{18}\selectfont Abstract}
-\newcommand{\abstractfont}{%
-	\normalfont
+\newcommand{\abstractfont}{	\normalfont
 	\fontsize{11}{13.2}\selectfont
 }
 \newcommand{\abstractheadingsep}{\vspace{1em}}
-
 \makeatletter
-\renewenvironment{abstract}{%
-	\ifx\maketitle\relax
+\renewenvironment{abstract}{	\ifx\maketitle\relax
 	\ClassWarning{\@classname}{Abstract should precede
-		\protect\maketitle\space in AMS document classes; reported}%
-	\fi
+		\protect\maketitle\space in AMS document classes; reported}	\fi
 	\global\setbox\abstractbox=\vtop \bgroup
 	\abstractfont
-	{\centering\abstractname\par}%
-	\abstractheadingsep
+	{\centering\abstractname\par}	\abstractheadingsep
 	\list{}{\labelwidth\z@
 		\leftmargin3pc \rightmargin\leftmargin
 		\listparindent\normalparindent \itemindent\z@
 		\parsep\z@ \@plus\p@
 		\let\fullwidthdisplay\relax
-	}%
-	\item\relax
-}{%
-	\endlist\egroup
+	}	\item\relax
+}{	\endlist\egroup
 	\ifx\@setabstract\relax \@setabstracta \fi
 }
 \makeatother
-% -------------------------------------------------------------------
-
-% ---- subject classification --------------------------------------
 \makeatletter
-\renewcommand{\subjclass}[2][]{%
-	\gdef\@subjclass{#2}%
-	\gdef\@subjclassyear{#1}}
+\renewcommand{\subjclass}[2][]{	\gdef\@subjclass{#2}	\gdef\@subjclassyear{#1}}
 \makeatother
-\subjclass[2020]{%
-	\textbf{Primary:} 26A42.\,
+\subjclass[2020]{	\textbf{Primary:} 26A42.\,
 	\textbf{Secondary:} 28A15; 28B05; 28A25; 68V20; 68V15.}
-
 \keywords{Fundamental Theorem of Calculus, interval integral,
 	Bochner integral, Lebesgue integral, Little-o, Mathlib, Lean 4,
 	dependency tree, formalisation}
-
 \setcounter{secnumdepth}{3}
-
-% ---- sectioning fonts --------------------------------------------
 \titleformat{\section}
 {\normalfont\fontsize{22}{20}\selectfont\bfseries}
 {\thesection.}
@@ -112,76 +104,56 @@
 \titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 \titlespacing*{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 \titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-
-% ---- column-type tuning parameters -------------------------------
 \newcommand{\colLsize}{\scriptsize}
-\def\colLbaseline{1.5}%
+\def\colLbaseline{1.5}
 \newcommand{\colLindent}{1.5em}
 \newcommand{\colLwidth}{11cm}
-
-% ---- column types ------------------------------------------------
 \setlength{\arraycolsep}{3pt}
 \newcolumntype{T}{>{\centering\arraybackslash}m{1.4cm}}
 \newcolumntype{S}{>{\small\centering\arraybackslash}m{2.8cm}}
 \newcolumntype{L}{>{\colLsize
 		\baselineskip=\colLbaseline\baselineskip
-		\setlength{\parindent}{\colLindent}%
-		\RaggedRight\arraybackslash}m{\colLwidth}}
+		\setlength{\parindent}{\colLindent}		\RaggedRight\arraybackslash}m{\colLwidth}}
 \newcolumntype{K}{>{\footnotesize\centering\arraybackslash}m{2.8cm}}
-
 \newcommand{\lean}[1]{\texttt{#1}}
 \newcommand{\tagged}[2]{\hypertarget{#1}{\textbf{#2}}}
 \newcommand{\refto}[2]{\hyperlink{#1}{#2}}
-
-%% FIXED-MATH: pinned Mathlib commit used throughout the paper.
 \newcommand{\mathlibsha}{\texttt{0c1d5a7e}}
 \newcommand{\mathlibsharaw}{0c1d5a7e}
-
-% ---- title-case preservation -------------------------------------
 \makeatletter
 \let\orig@maketitle\maketitle
-\renewcommand{\maketitle}{%
-	\begingroup
+\renewcommand{\maketitle}{	\begingroup
 	\let\MakeUppercase\@firstofone
 	\let\uppercase\@firstofone
 	\orig@maketitle
 	\endgroup
 }
 \makeatother
-
-% ---- spacing inside \maketitle: title / author / abstract --------
 \makeatletter
 \newlength{\titleToAuthorSkip}
 \newlength{\authorToAbstractSkip}
 \setlength{\titleToAuthorSkip}{18pt plus 14pt minus 2pt}
 \setlength{\authorToAbstractSkip}{100pt plus 6pt minus 3pt}
-
-\renewcommand{\@maketitle}{%
-	\normalfont\normalsize
+\renewcommand{\@maketitle}{	\normalfont\normalsize
 	\let\@makefnmark\relax
 	\let\@thefnmark\relax
 	\@settitle
 	\ifx\@empty\@authors\else
-	\vspace{\titleToAuthorSkip}%
-	\@setauthors
+	\vspace{\titleToAuthorSkip}	\@setauthors
 	\fi
 	\ifx\@empty\@date\else
-	\vspace{6pt}%
-	\@setdate
+	\vspace{6pt}	\@setdate
 	\fi
 	\ifx\@empty\@abstract\else
-	\vspace{\authorToAbstractSkip}%
-	\fi
+	\vspace{\authorToAbstractSkip}	\fi
 	\@setabstract
 }
 \makeatother
-% ------------------------------------------------------------------
-
 \pagestyle{plain}
 \renewcommand{\seriesdefault}{\bfdefault}
 \boldmath
-\begin{document}
 
+\begin{document}
 \title{\bfseries{\Large {The Fundamental Theorem of Calculus in Mathlib}}\\
 [10pt] {\Large {A Dependency-Guided Formal Exposition}}}
 \author{ 
@@ -193,116 +165,113 @@
 }
 
 \begin{abstract}
-	\setstretch{1.5}We present a dependency-guided exposition of the
-	Fundamental Theorem of Calculus as formalised in Mathlib. The paper
-	roots a depth-5 dependency tree at the one-sided Little-$o$ theorem
-	\textsf{measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_linear\allowbreak
-		\_is\allowbreak LittleO\allowbreak\_of\allowbreak\_tendsto\allowbreak\_ae},
-	shows that its two-sided lift
-	\textsf{measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_integral\allowbreak
-		\_sub\allowbreak\_linear\allowbreak\_is\allowbreak LittleO\allowbreak\_of\allowbreak
-		\_tendsto\allowbreak\_ae} subsumes the classical derivative form and the
-	two one-sided variants, and inspects the resulting axiom closure. The
-	closure is confined to \textsf{propext}, \textsf{funext} and
-	\textsf{Quot\allowbreak.sound}; \textsf{Classical\allowbreak.choice} is
-	not reached, so the theorem is choice-free. A Lean~4 proof skeleton is
-	type-checked against Mathlib commit \mathlibsha{}, and its
-	\textsf{\#print\ axioms} output is reported verbatim. The paper
-	complements the corpus-scale axiom-profile measurement of Close~(2026)
-	by exhibiting a concrete, mathematically significant theorem that sits
-	inside the choice-free corner of Mathlib.
+\setstretch{1.5}We present a dependency-guided exposition of the 
+Fundamental Theorem of Calculus as formalised in Mathlib. The paper  roots a
+depth-5 dependency tree at the one-sided Little-$o$ theorem  \textsf{%
+measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_linear\allowbreak
+\_is\allowbreak LittleO\allowbreak\_of\allowbreak\_tendsto\allowbreak\_ae}, 
+shows that its two-sided lift  \textsf{measure\allowbreak\_integral%
+\allowbreak\_sub\allowbreak\_integral\allowbreak
+\_sub\allowbreak\_linear\allowbreak\_is\allowbreak
+LittleO\allowbreak\_of\allowbreak \_tendsto\allowbreak\_ae} subsumes the
+classical derivative form and the  two one-sided variants, and inspects the
+resulting axiom closure. The  closure is confined to \textsf{propext}, 
+\textsf{funext} and  \textsf{Quot\allowbreak.sound}; \textsf{%
+Classical\allowbreak.choice} is  not reached, so the theorem is choice-free.
+A Lean~4 proof skeleton is  type-checked against Mathlib commit \texttt{%
+0c1d5a7e}{}, and its  \textsf{\#print\ axioms} output is reported verbatim.
+The paper  complements the corpus-scale axiom-profile measurement of
+Close~(2026)  by exhibiting a concrete, mathematically significant theorem
+that sits  inside the choice-free corner of Mathlib.
 \end{abstract}
 
-	\maketitle
+\maketitle
+
 \thispagestyle{empty}
 
-
-	\newpage
-\pagestyle{plain}
-\pagenumbering{arabic}
-\setstretch{1.5}
+\newpage \pagestyle{plain} \pagenumbering{arabic} \setstretch{1.5}
 
 \section{Introduction}
+
 \label{sec:introduction}
 
 \noindent Mathlib \cite{mathlib4} formalises the Fundamental Theorem of
 Calculus not as a single declaration but as a small hierarchy. Its most
-general member is the Little-$o$ statement
-\textsf{measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_integral\allowbreak
-	\_sub\allowbreak\_linear\allowbreak\_is\allowbreak LittleO\allowbreak\_of\allowbreak
-	\_tendsto\allowbreak\_ae}, from which the classical derivative form
-\textsf{integral\allowbreak\_eq\allowbreak\_sub\allowbreak\_of\allowbreak\_has\allowbreak
-	Deriv\allowbreak At} and the one-sided variants \textsf{\_left} and
-\textsf{\_right} are derived by direct reduction. The hierarchy is
-stable across Mathlib releases and is cited in downstream work on
-change of variables, Barrow's rule, and the Bochner integral.
+general member is the Little-$o$ statement \textsf{measure\allowbreak%
+\_integral\allowbreak\_sub\allowbreak\_integral\allowbreak
+\_sub\allowbreak\_linear\allowbreak\_is\allowbreak
+LittleO\allowbreak\_of\allowbreak \_tendsto\allowbreak\_ae}, from which the
+classical derivative form \textsf{integral\allowbreak\_eq\allowbreak\_sub%
+\allowbreak\_of\allowbreak\_has\allowbreak Deriv\allowbreak At} and the
+one-sided variants \textsf{\_left} and \textsf{\_right} are derived by
+direct reduction. The hierarchy is stable across Mathlib releases and is
+cited in downstream work on change of variables, Barrow's rule, and the
+Bochner integral.
 
 \smallskip\noindent\textbf{What this paper does.} We make three
 contributions.
 
 \begin{enumerate}
-	\item \emph{A dependency tree.} We expand the one-sided Little-$o$
-	theorem to depth~5 using the MathlibGraph edge dataset
-	\cite{mathlibgraph2026, mathlibgraph, network-structure-mathlib}. The
-	printed excerpt is chosen so that all three kernel axioms reached by
-	the closure --- \textsf{funext}, \textsf{Quot\allowbreak.sound} and
-	\textsf{propext} --- appear inside it (Section~\ref{sec:tree}).
-	
-	\item \emph{Statement tables and a proof strategy.} We collect the
-	fourteen definitions, thirteen lemmas, thirteen theorems, two
-	propositions and two corollaries that make up the hierarchy
-	(Sections~\ref{sec:definitions}--\ref{sec:statements}), verify each
-	signature against the Mathlib4 documentation browser
-	\cite{mathlib4-docs} and the source file \cite{mathlib4-fundthm}, and
-	give the five-step reduction from the one-sided to the two-sided
-	statement (Section~\ref{sec:proofs}).
-	
-	\item \emph{A verified Lean skeleton.} We give a Lean~4 proof skeleton
-	for the two-sided statement that type-checks against Mathlib commit
-	\mathlibsha{} and, together with its \textsf{\#print\ axioms} output,
-	shows that the closure remains confined to \textsf{propext} and
-	\textsf{Quot\allowbreak.sound} (Section~\ref{sec:lean-skeleton}).
+\item \emph{A dependency tree.} We expand the one-sided Little-$o$  theorem
+to depth~5 using the MathlibGraph edge dataset  \cite{mathlibgraph2026,
+mathlibgraph, network-structure-mathlib}. The  printed excerpt is chosen so
+that all three kernel axioms reached by  the closure --- \textsf{funext}, 
+\textsf{Quot\allowbreak.sound} and  \textsf{propext} --- appear inside it
+(Section~\ref{sec:tree}).
+
+\item \emph{Statement tables and a proof strategy.} We collect the  fourteen
+definitions, thirteen lemmas, thirteen theorems, two  propositions and two
+corollaries that make up the hierarchy  (Sections~\ref{sec:definitions}--\ref%
+{sec:statements}), verify each  signature against the Mathlib4 documentation
+browser  \cite{mathlib4-docs} and the source file \cite{mathlib4-fundthm},
+and  give the five-step reduction from the one-sided to the two-sided 
+statement (Section~\ref{sec:proofs}).
+
+\item \emph{A verified Lean skeleton.} We give a Lean~4 proof skeleton  for
+the two-sided statement that type-checks against Mathlib commit  \texttt{%
+0c1d5a7e}{} and, together with its \textsf{\#print\ axioms} output,  shows
+that the closure remains confined to \textsf{propext} and  \textsf{%
+Quot\allowbreak.sound} (Section~\ref{sec:lean-skeleton}).
 \end{enumerate}
 
-\smallskip\noindent\textbf{Choice-freeness.} The absence of
-\textsf{Classical\allowbreak.choice} from the axiom closure of the
-FTC-2 hierarchy is not an accident of the particular proof term we
-examined. A corpus-scale study of the axiom profile of 707{,}053
-Mathlib declarations \cite{close2026axiom} shows that only $23$
-distinct axiom profiles occur across the entire library and that
-\textsf{Classical\allowbreak.choice} reaches only about half the corpus
-($50.84\%$), through a narrow frontier of $206$ declarations that use
-the axiom directly. Theorems whose closure lies entirely inside
-$\{\textsf{propext},\textsf{Quot\allowbreak.sound}\}$ --- as is the
-case for the FTC-2 statements examined here --- are common in Mathlib
+\smallskip\noindent\textbf{Choice-freeness.} The absence of \textsf{%
+Classical\allowbreak.choice} from the axiom closure of the FTC-2 hierarchy
+is not an accident of the particular proof term we examined. A corpus-scale
+study of the axiom profile of 707{,}053 Mathlib declarations \cite%
+{close2026axiom} shows that only $23$ distinct axiom profiles occur across
+the entire library and that \textsf{Classical\allowbreak.choice} reaches
+only about half the corpus ($50.84\%$), through a narrow frontier of $206$
+declarations that use the axiom directly. Theorems whose closure lies
+entirely inside $\{\mathsf{propext},\mathsf{Quot\allowbreak.sound}\}$ --- as
+is the case for the FTC-2 statements examined here --- are common in Mathlib
 and arise whenever the underlying construction does not require a
 nonconstructive selection principle (Section~\ref{sec:axioms}).
 
-\smallskip\noindent\textbf{Organisation.} Section~\ref{sec:axioms}
-recalls the three kernel axioms and reports the \textsf{\#print\ axioms}
-output for the root declaration. Section~\ref{sec:definitions}
-collects the definitions, Section~\ref{sec:statements} the lemmas,
-theorems, propositions and corollaries, and Section~\ref{sec:proofs}
-the five-step reduction. Section~\ref{sec:scripts} reports the
-depth-5 dependency tree, the Lean skeleton, and the generator script.
-Section~\ref{sec:tables} gives the timeline, classifications and
-applications. Section~\ref{sec:conclusion} summarises.
-
+\smallskip\noindent\textbf{Organisation.} Section~\ref{sec:axioms} recalls
+the three kernel axioms and reports the \textsf{\#print\ axioms} output for
+the root declaration. Section~\ref{sec:definitions} collects the
+definitions, Section~\ref{sec:statements} the lemmas, theorems, propositions
+and corollaries, and Section~\ref{sec:proofs} the five-step reduction.
+Section~\ref{sec:scripts} reports the depth-5 dependency tree, the Lean
+skeleton, and the generator script. Section~\ref{sec:tables} gives the
+timeline, classifications and applications. Section~\ref{sec:conclusion}
+summarises.
 
 \section{Axioms}
+
 \label{sec:axioms}
 
 \noindent Lean~4's kernel contains exactly three primitive logical axioms 
 \cite{mathlib4, mathlib4-docs}: \textsf{propext}, \textsf{%
 Quot\allowbreak.sound}, and \textsf{Classical\allowbreak.choice}. Mathlib
 conventionally also reports \textsf{funext} alongside them, although it is
-derivable from \textsf{Quot\allowbreak.sound}. \noindent A \textsf{\#print\ axioms} check on the root declaration of the
-depth-5 tree (the one-sided theorem
-\textsf{interval\allowbreak Integral.measure\allowbreak
+derivable from \textsf{Quot\allowbreak.sound}. \noindent A \textsf{\#print\
+axioms} check on the root declaration of the depth-5 tree (the one-sided
+theorem \textsf{interval\allowbreak Integral.measure\allowbreak
 \_integral\allowbreak \_sub\allowbreak \_linear\allowbreak \_is\allowbreak
 LittleO\allowbreak \_of\allowbreak \_tendsto\allowbreak \_ae}) gives the
-following output (verbatim, from a local Lean~4 session at Mathlib commit
-\mathlibsha{}):
+following output (verbatim, from a local Lean~4 session at Mathlib commit 
+\texttt{0c1d5a7e}{}):
 
 \text{ \ } \setstretch{1}\text{ \ } 
 \begin{verbatimbox}
@@ -316,36 +285,34 @@ following output (verbatim, from a local Lean~4 session at Mathlib commit
 --  reported: the proof is constructive in the choice parameter. The
 --  two-sided lift has the same axiom closure as the one-sided statement.)
 \end{verbatimbox}
-\text{ \ } \setstretch{1.5}\text{ \ } 
-\noindent The same conclusion is reached independently by the depth-5 tree
-traversal reported in Section~\ref{sec:tree}: \textsf{propext},
-\textsf{funext} and \textsf{Quot\allowbreak.sound} are the only kernel
-axioms reached, and \textsf{Classical\allowbreak.choice} is not.
+\text{ \ } \setstretch{1.5}\text{ \ } \noindent The same conclusion is
+reached independently by the depth-5 tree traversal reported in Section~\ref%
+{sec:tree}: \textsf{propext}, \textsf{funext} and \textsf{%
+Quot\allowbreak.sound} are the only kernel axioms reached, and \textsf{%
+Classical\allowbreak.choice} is not. 
 %% FIXED-MATH: choice-freeness of FTC-2, with a corpus-scale reference.
-\noindent\textbf{Remark (choice-freeness).} The absence of
-\textsf{Classical\allowbreak.choice} from the axiom closure of
-\hyperlink{thm:root}{Thm\,1} and \hyperlink{thm:linear}{Thm\,2} is not
-an artefact of the particular proof term examined here: it is a
-property of the whole FTC-2 hierarchy as formalised in Mathlib. A
-corpus-scale study of the axiom profile of 707{,}053 Mathlib
-declarations \cite{close2026axiom} shows that only $23$ distinct axiom
-profiles occur across the entire library and that
-\textsf{Classical\allowbreak.choice} reaches only about half the
-corpus ($50.84\%$), through a narrow frontier of $206$ declarations
-that use the axiom directly. Theorems whose closure lies entirely
-inside $\{\textsf{propext},\textsf{Quot\allowbreak.sound}\}$ --- as is
-the case for the FTC-2 statements examined here --- are common in
-Mathlib and arise whenever the underlying construction does not require
-a nonconstructive selection principle. In the present case, none of the
-five reduction steps of Section~\ref{sec:proofs} invokes a choice
-principle: the lemmas \hyperlink{lem:addadd}{L1},
-\hyperlink{lem:negleft}{L2}, \hyperlink{lem:negright}{L2$'$},
-\hyperlink{lem:compTendsto}{L11} and the interval-integral lemmas
-\hyperlink{thm:addadj}{Thm\,7}--\hyperlink{thm:toIxx}{Thm\,13} are all
-themselves choice-free, and the composite inherits their axiom profile.\text{ \ }\newline
+\noindent\textbf{Remark (choice-freeness).} The absence of \textsf{%
+Classical\allowbreak.choice} from the axiom closure of \hyperlink{thm:root}{%
+Thm\,1} and \hyperlink{thm:linear}{Thm\,2} is not an artefact of the
+particular proof term examined here: it is a property of the whole FTC-2
+hierarchy as formalised in Mathlib. A corpus-scale study of the axiom
+profile of 707{,}053 Mathlib declarations \cite{close2026axiom} shows that
+only $23$ distinct axiom profiles occur across the entire library and that 
+\textsf{Classical\allowbreak.choice} reaches only about half the corpus ($%
+50.84\%$), through a narrow frontier of $206$ declarations that use the
+axiom directly. Theorems whose closure lies entirely inside $\{\mathsf{%
+propext},\mathsf{Quot\allowbreak.sound}\}$ --- as is the case for the FTC-2
+statements examined here --- are common in Mathlib and arise whenever the
+underlying construction does not require a nonconstructive selection
+principle. In the present case, none of the five reduction steps of Section~%
+\ref{sec:proofs} invokes a choice principle: the lemmas \hyperlink{lem:addadd}%
+{L1}, \hyperlink{lem:negleft}{L2}, \hyperlink{lem:negright}{L2$^{\prime }$}, 
+\hyperlink{lem:compTendsto}{L11} and the interval-integral lemmas \hyperlink{thm:addadj}%
+{Thm\,7}--\hyperlink{thm:toIxx}{Thm\,13} are all themselves choice-free, and
+the composite inherits their axiom profile.\text{ \ }\newline
 
-\noindent
-$\begin{array}{|T|S|L|K|}
+\noindent $%
+\begin{array}{|T|S|L|K|}
 \hline
 \hypertarget{ax:propext}{\textbf{Ax\,1}} &
 propositional extensionality &
@@ -355,9 +322,7 @@ propositional extensionality &
 function extensionality &
 \textsf{funext}$:\forall (\alpha:\textsf{Type})\;(\beta:\textsf{Type})\;(f:\alpha\to\beta)\;(g:\alpha\to\beta),\;(\forall (x:\alpha),\;f(x)=g(x))\Longrightarrow f=g$ &
 \textsf{kernel axiom} \\ 
-\end{array}$
-\noindent
-$%
+\end{array}$ \noindent $%
 \begin{array}{|T|S|L|K|}
 \hline
 \hypertarget{ax:quot}{\textbf{Ax\,3}} &
@@ -370,7 +335,6 @@ ax\allowbreak iom of choice &
 \textsf{ker\allowbreak nel ax\allowbreak iom} \\ \hline
 \end{array}$ \noindent \text{ \ }\newline
 
-
 \noindent A full depth-5 expansion of the one-sided theorem (see Section~\ref%
 {sec:tree}) reaches all three of \textsf{propext}, \textsf{funext} and 
 \textsf{Quot\allowbreak.sound}: \textsf{funext} and \textsf{%
@@ -382,16 +346,18 @@ appear anywhere in the depth-5 closure of the tree examined here. The kernel
 axioms and their status are documented in \cite{mathlib4-docs}.
 
 \section{Definitions}
+
 \label{sec:definitions}
 
 \noindent The proof of the general FTC-2 rests on the following definitions,
 all drawn from the depth-1 frontier of the dependency tree generated from
 the MathlibGraph dataset \cite{mathlibgraph2026, mathlibgraph}.
 
-\text{\ } \\ \text{\ } 
+\text{\ } \newline
+\text{\ }
 
-
-\noindent$\begin{array}{|T|S|L|K|}
+\noindent$%
+\begin{array}{|T|S|L|K|}
 \hline
 \hypertarget{def:II}{\textbf{Def\,1}} &
 \textsf{Interval\allowbreak Integrable} &
@@ -401,9 +367,8 @@ the MathlibGraph dataset \cite{mathlibgraph2026, mathlibgraph}.
 sym\allowbreak metry &
 \textsf{Interval\allowbreak Integrable.symm}$:\forall (E:\textsf{Type})\;[Normed\allowbreak AddCommGroup\;E]\;[Normed\allowbreak Space\;\mathbb{R}\;E]\;(f:\mathbb{R}\to E)\;(a:\mathbb{R})\;(b:\mathbb{R})\;(\mu:\textsf{Measure}\;\mathbb{R}),\;\textsf{Interval\allowbreak Integrable}(E,f,a,b,\mu)\Longrightarrow\textsf{Interval\allowbreak Integrable}(E,f,b,a,\mu)$ &
 \textsf{Measure\allowbreak Theory} \\ 
-\end{array}$
-\noindent
-$\begin{array}{|T|S|L|K|}
+\end{array}$ \noindent $%
+\begin{array}{|T|S|L|K|}
 \hline
 \hypertarget{def:IItrans}{\textbf{Def\,3}} &
 transi\allowbreak tivity &
@@ -415,16 +380,17 @@ FTC filter type\allowbreak class &
 \textsf{Interval\allowbreak Integral} \\ \hline
 \end{array}$
 
-\text{\ } \\\text{\ } 
-\noindent\textit{Note on \hyperlink{def:FTCF}{Def 4}.}  \textsf{FTC\allowbreak Filter} is a two-argument predicate \textsf{FTC\allowbreak Filter}
-$:\textsf{Filter}\;\mathbb{R}\to\mathbb{R}\to\textsf{Prop}$, written
-\textsf{[FTC\allowbreak Filter}$\;\ell\;a$\textsf{]} in Lean~4 syntax.
-The brackets denote that it is used as a typeclass instance. This is the
-\emph{canonical} notation used throughout the paper: the same spelling
-\textsf{[FTC\allowbreak Filter}$\;\ell\;a$\textsf{]} appears in the
-statement tables of Section~\ref{sec:statements} and in the verbatim
-Lean skeleton of Section~\ref{sec:lean-skeleton}.
-\text{\ } \\\text{\ } 
+\text{\ } \newline
+\text{\ } \noindent\textit{Note on \hyperlink{def:FTCF}{Def 4}.} \textsf{%
+FTC\allowbreak Filter} is a two-argument predicate \textsf{FTC\allowbreak
+Filter} $:\mathsf{Filter}\;\mathbb{R}\to\mathbb{R}\to\mathsf{Prop}$, written 
+\textsf{[FTC\allowbreak Filter}$\;\ell\;a$\textsf{]} in Lean~4 syntax. The
+brackets denote that it is used as a typeclass instance. This is the \emph{%
+canonical} notation used throughout the paper: the same spelling \textsf{%
+[FTC\allowbreak Filter}$\;\ell\;a$\textsf{]} appears in the statement tables
+of Section~\ref{sec:statements} and in the verbatim Lean skeleton of Section~%
+\ref{sec:lean-skeleton}. \text{\ } \newline
+\text{\ }
 
 \noindent$%
 \begin{array}{|T|S|L|K|}
@@ -489,23 +455,23 @@ canon\allowbreak ical mea\allowbreak sure &
 unord\allowbreak ered inter\allowbreak val &
 \textsf{uIcc}$:\forall (\alpha:\textsf{Type})\;[\textsf{Linear\allowbreak Order}\;\alpha]\;(a:\alpha)\;(b:\alpha),\;\textsf{Set}\;\alpha$ &
 \textsf{Data.\allowbreak Set} \\ \hline
-\end{array}$ \noindent 
-\setstretch{1}
-\section{Statements}
-\label{sec:statements}
-\setstretch{1.3}
-\noindent The declarations involved in the general FTC-2 fall into four
-logical categories. Every signature below is taken from the Mathlib4
-documentation browser \cite{mathlib4-docs} and cross-checked against the
-source file \cite{mathlib4-fundthm} at commit \mathlibsha{}.
-\setstretch{1}
-\subsection{Lemmas}
-\label{sec:lemmas}
-\setstretch{1.4}
-\noindent Small technical lemmas invoked inside the proof.
+\end{array}$ \noindent \setstretch{1}
 
-\text{ \ }\newline\text{ \ }
-\noindent$%
+\section{Statements}
+
+\label{sec:statements} \setstretch{1.3} \noindent The declarations involved
+in the general FTC-2 fall into four logical categories. Every signature
+below is taken from the Mathlib4 documentation browser \cite{mathlib4-docs}
+and cross-checked against the source file \cite{mathlib4-fundthm} at commit 
+\texttt{0c1d5a7e}{}. \setstretch{1}
+
+\subsection{Lemmas}
+
+\label{sec:lemmas} \setstretch{1.4} \noindent Small technical lemmas invoked
+inside the proof.
+
+\text{ \ }\newline
+\text{ \ } \noindent$%
 \begin{array}{|T|S|L|K|}
 \hline
 \hypertarget{lem:addadd}{\textbf{Lem\,1}} &
@@ -594,17 +560,16 @@ $\forall$ congru\allowbreak ence &
 $\to$ congru\allowbreak ence &
 \textsf{implies\allowbreak\_congr}$:\forall (p:\textsf{Prop})\;(p':\textsf{Prop})\;(q:\textsf{Prop})\;(q':\textsf{Prop}),\;(p\leftrightarrow p')\Longrightarrow(q\leftrightarrow q')\Longrightarrow((p\to q)\leftrightarrow(p'\to q'))$ &
 \textsf{quan\allowbreak tifier} \\ \hline
-\end{array}$ 
+\end{array}$
 
 \subsection{Theorems}
-\label{sec:theorems}
-The substantive results in the dependency tree. The root theorem
-and its one-sided reduction are taken from \cite{mathlib4-fundthm} at
-commit \mathlibsha{}.
+
+\label{sec:theorems} The substantive results in the dependency tree. The
+root theorem and its one-sided reduction are taken from \cite%
+{mathlib4-fundthm} at commit \texttt{0c1d5a7e}{}.
 
 \text{ \ }\newline
-\noindent$%
-\setstretch{1.3}
+\noindent$\setstretch{1.3} 
 \begin{array}{|T|S|L|K|}
 \hline
 \hypertarget{thm:root}{\textbf{Thm\,1}} &
@@ -615,9 +580,7 @@ two-\allowbreak sided Lit\allowbreak tle-$o$ FTC-2 &
 one-\allowbreak sided reduc\allowbreak tion &
 \textsf{measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_linear\allowbreak\_is\allowbreak LittleO\allowbreak\_of\allowbreak\_tendsto\allowbreak\_ae}$:\forall (E:\textsf{Type})\;[Normed\allowbreak AddCommGroup\;E]\;[Normed\allowbreak Space\;\mathbb{R}\;E]\;[Complete\allowbreak Space\;E]\;(\mu:\textsf{Measure}\;\mathbb{R})\;[Is\allowbreak Locally\allowbreak Finite\allowbreak Measure\;\mu]\;(f:\mathbb{R}\to E)\;(a:\mathbb{R})\;(c:\mathbb{R})\;(\ell:\textsf{Filter}\;\mathbb{R})\;[\textsf{FTC\allowbreak Filter}\;\ell\;a],\;\textsf{Is\allowbreak Measurably\allowbreak Generated}(\mathbb{R},\ell)\Longrightarrow\textsf{Strongly\allowbreak Measurable\allowbreak At\allowbreak Filter}(E,f,\ell,\mu)\Longrightarrow\textsf{Tendsto}(\mathbb{R},E,f,\ell,\textsf{nhds}(c))\Longrightarrow\textsf{Is\allowbreak LittleO}(\mathbb{R},E,\mathbb{R},\ell,(\lambda x,\;(\int y\;\textsf{in}\;a..x,\;f(y))-(x-a)\bullet c),(\lambda x,\;x-a))$ &
 \textsf{main aux} \\ 
-\end{array}$
-\setstretch{1.3}
-\noindent$%
+\end{array}$ \setstretch{1.3} \noindent$%
 \begin{array}{|T|S|L|K|}
 \hline
 \hypertarget{thm:left}{\textbf{Thm\,3}} &
@@ -689,9 +652,10 @@ pure domin\allowbreak ated by FTC filter &
 FTC filter is a \textsf{Tendsto\allowbreak Ixx\allowbreak Class} &
 \textsf{FTC\allowbreak Filter.to\allowbreak Tendsto\allowbreak Ixx\allowbreak Class}$:\forall (\ell:\textsf{Filter}\;\mathbb{R})\;(a:\mathbb{R})\;[\textsf{FTC\allowbreak Filter}\;\ell\;a],\;\textsf{Tendsto\allowbreak Ixx\allowbreak Class}(\mathbb{R},\mathbb{R},\ell,\ell,\textsf{Ioc})$ &
 \textsf{FTC filter} \\ \hline
-\end{array}$ 
+\end{array}$
 
 \subsection{Propositions}
+
 \label{sec:propositions}
 
 \noindent The two $\mathbb{R}$-valued comparison propositions that bracket
@@ -713,10 +677,11 @@ low\allowbreak er compar\allowbreak ison &
 \end{array}$ \noindent \text{ \ }\newline
 
 \subsection{Corollaries}
+
 \label{sec:corollaries}
 
 \noindent The classical derivative form of FTC-2; signatures verified
-against \cite{mathlib4-fundthm} at commit \mathlibsha{}.
+against \cite{mathlib4-fundthm} at commit \texttt{0c1d5a7e}{}.
 
 \text{ \ }\newline
 \noindent$%
@@ -730,19 +695,18 @@ class\allowbreak ical FTC-2 in \textsf{Has\allowbreak Deriv\allowbreak At} form 
 class\allowbreak ical FTC-2 via \textsf{deriv} &
 \textsf{integral\allowbreak\_deriv\allowbreak\_eq\allowbreak\_sub}$:\forall (E:\textsf{Type})\;[Normed\allowbreak AddCommGroup\;E]\;[Normed\allowbreak Space\;\mathbb{R}\;E]\;[Complete\allowbreak Space\;E]\;(f:\mathbb{R}\to E)\;(a:\mathbb{R})\;(b:\mathbb{R})\;(\mu:\textsf{Measure}\;\mathbb{R}),\;(\forall (x:\mathbb{R}),\;\textsf{uIcc}(a,b)(x)\Longrightarrow\textsf{Differentiable\allowbreak At}(\mathbb{R},E,f,x))\Longrightarrow\textsf{Interval\allowbreak Integrable}(E,\textsf{deriv}(f),a,b,\mu)\Longrightarrow\int x\;\textsf{in}\;a..b,\;\textsf{deriv}(f)(x)=f(b)-f(a)$ &
 \textsf{syn\allowbreak tactic vari\allowbreak ant} \\ \hline
-\end{array}$ 
-\setstretch{1}
+\end{array}$ \setstretch{1}
+
 \section{Proofs}
-\label{sec:proofs}
-The formal proof of the general FTC-2 proceeds by reduction. Let $%
-\ell$ be an FTC filter at $a$, let $\mu$ be a locally finite measure on $%
-\mathbb{R}$, let $f:\mathbb{R}\to E$ be strongly measurable at $\ell$, and
-suppose $f\to c$ along $\ell$. The goal is 
+
+\label{sec:proofs} The formal proof of the general FTC-2 proceeds by
+reduction. Let $\ell$ be an FTC filter at $a$, let $\mu$ be a locally finite
+measure on $\mathbb{R}$, let $f:\mathbb{R}\to E$ be strongly measurable at $%
+\ell$, and suppose $f\to c$ along $\ell$. The goal is 
 \begin{equation*}
 \Bigl(\lambda p:\mathbb{R}\times\mathbb{R},\ \Bigl(\int x\ \text{in}\
-p_{1}..p_{2},\ f(x)\Bigr)
--(p_{2}-p_{1})\bullet c\Bigr)
-\;=\; o_{\ell\times\ell}\bigl(\lambda p,\ p_{2}-p_{1}\bigr). 
+p_{1}..p_{2},\ f(x)\Bigr) -(p_{2}-p_{1})\bullet c\Bigr) \;=\;
+o_{\ell\times\ell}\bigl(\lambda p,\ p_{2}-p_{1}\bigr).
 \end{equation*}
 
 \setstretch{1.2}
@@ -792,78 +756,77 @@ $\textsf{h}_{\textsf{final}}:\textsf{Is\allowbreak LittleO}(\mathbb{R}\times\mat
 (\lambda p,\;p_{2}-p_{1}))$ &
 \textsf{\hyperlink{thm:root}{Thm 1} from (1,2,3,4a,4b) via \hyperlink{thm:addadj}{Thm 7}} \\ \hline
 \end{array}$ \noindent \text{ \ }\newline
-\setstretch{1.5}
-\noindent The reduction follows the structure of the Mathlib proof in 
-\textsf{FundThmCalculus.lean} \cite{mathlib4-fundthm}:
+\setstretch{1.5} \noindent The reduction follows the structure of the
+Mathlib proof in \textsf{FundThmCalculus.lean} \cite{mathlib4-fundthm}:
 
 \begin{enumerate}
-\item obtain eventual integrability of $f$ on intervals near $a$ from  
+\item obtain eventual integrability of $f$ on intervals near $a$ from 
 \textsf{eventually\allowbreak\_interval\allowbreak Integrable\allowbreak\_ae}
 (\hyperlink{thm:evII}{Thm 8});
 
-\item apply the one-sided Little-$o$ statement  \textsf{measure\allowbreak%
+\item apply the one-sided Little-$o$ statement \textsf{measure\allowbreak%
 \_integral\allowbreak\_sub\allowbreak\_linear\allowbreak \_is\allowbreak
-LittleO\allowbreak\_of\allowbreak\_tendsto\allowbreak\_ae}  (\hyperlink{thm:linear}%
-{Thm 2}) at the base point $a$, and transport it  along the first projection
-of $\ell\times\ell$ by  \textsf{Is\allowbreak
-LittleO.comp\allowbreak\_tendsto} (\hyperlink{lem:compTendsto}{L11});
+LittleO\allowbreak\_of\allowbreak\_tendsto\allowbreak\_ae} (\hyperlink{thm:linear}%
+{Thm 2}) at the base point $a$, and transport it along the first projection
+of $\ell\times\ell$ by \textsf{Is\allowbreak LittleO.comp\allowbreak\_tendsto%
+} (\hyperlink{lem:compTendsto}{L11});
 
-\item repeat step 2 along the second projection, giving the same  one-sided
+\item repeat step 2 along the second projection, giving the same one-sided
 statement with $p_{2}$ in place of $p_{1}$;
 
-\item \emph{negate the left one-sided statement together with its bound}. 
-Since the two-sided integrand is the \emph{difference} of the two  one-sided
-ones, the two Little-$o$ statements must be added with  compatible bounds.
-Applying \textsf{Is\allowbreak LittleO.neg\allowbreak \_left} (\hyperlink{lem:negleft}{L2}) negates
-the function; applying  \textsf{Is\allowbreak LittleO.neg\allowbreak\_right}
-(\hyperlink{lem:negright}{L2$^{\prime }$})  negates the bound. The resulting statement reads  $-%
-\mathsf{h}_{\mathsf{L}}=o(-(p_{1}-a))$, and this is precisely the 
-correction term that Mathlib combines with $\mathsf{h}_{\mathsf{R}}$  under
-the name \textsf{neg\allowbreak\_left.add\allowbreak\_add}.  This is the
-step that earlier drafts of this note glossed over, and  it is the reason no
-case split on the eventual region is required;
+\item \emph{negate the left one-sided statement together with its bound}.
+Since the two-sided integrand is the \emph{difference} of the two one-sided
+ones, the two Little-$o$ statements must be added with compatible bounds.
+Applying \textsf{Is\allowbreak LittleO.neg\allowbreak \_left} (\hyperlink{lem:negleft}%
+{L2}) negates the function; applying \textsf{Is\allowbreak
+LittleO.neg\allowbreak\_right} (\hyperlink{lem:negright}{L2$^{\prime }$})
+negates the bound. The resulting statement reads $-\mathsf{h}_{\mathsf{L}%
+}=o(-(p_{1}-a))$, and this is precisely the correction term that Mathlib
+combines with $\mathsf{h}_{\mathsf{R}}$ under the name \textsf{%
+neg\allowbreak\_left.add\allowbreak\_add}. This is the step that earlier
+drafts of this note glossed over, and it is the reason no case split on the
+eventual region is required;
 
 %% FIXED-MATH: give the combined-bound step its own labelled display.
+
 \item add the two one-sided Little-$o$ statements using \textsf{%
-Is\allowbreak LittleO.add\allowbreak\_add} (\hyperlink{lem:addadd}{L1}). The combined bound is
-\begin{equation}
-\label{eq:combined-bound}
+Is\allowbreak LittleO.add\allowbreak\_add} (\hyperlink{lem:addadd}{L1}). The
+combined bound is 
+\begin{equation}  \label{eq:combined-bound}
 (p_{2}-a)+(-(p_{1}-a))=p_{2}-p_{1},
 \end{equation}
 exactly the bound appearing in \hyperlink{thm:root}{Thm 1};
 
-\item conclude by rewriting the two-sided integrand with interval 
-additivity (\hyperlink{thm:addadj}{Thm 7}). The identity  
+\item conclude by rewriting the two-sided integrand with interval additivity
+(\hyperlink{thm:addadj}{Thm 7}). The identity 
 \begin{equation}
-\resizebox{\textwidth}{!}{%
-	$\displaystyle
-	\int x\ \text{in}\ p_{1}..p_{2},\ f(x)\;-\;(p_{2}-p_{1})\bullet c
-	=
-	\Bigl(\int x\ \text{in}\ a..p_{2},\ f(x)\;-\;(p_{2}-a)\bullet c\Bigr)
-	-
-	\Bigl(\int x\ \text{in}\ a..p_{1},\ f(x)\;-\;(p_{1}-a)\bullet c\Bigr)
-	$}
+\resizebox{\textwidth}{!}{ $\displaystyle \int x\ \text{in}\ p_{1}..p_{2},\
+f(x)\;-\;(p_{2}-p_{1})\bullet c = \Bigl(\int x\ \text{in}\ a..p_{2},\
+f(x)\;-\;(p_{2}-a)\bullet c\Bigr) - \Bigl(\int x\ \text{in}\ a..p_{1},\
+f(x)\;-\;(p_{1}-a)\bullet c\Bigr) $}
 \end{equation}
-is a ring identity once the interval is split at $a$; it holds 
-unconditionally, without any case split on the relative positions of  $p_{1}$%
-, $p_{2}$ and $a$. The two one-sided estimates are combined  \emph{before}
+is a ring identity once the interval is split at $a$; it holds
+unconditionally, without any case split on the relative positions of $p_{1}$%
+, $p_{2}$ and $a$. The two one-sided estimates are combined \emph{before}
 the interval is split; the bound of the two-sided Little-$o$ is given by
 Equation~\eqref{eq:combined-bound}. This is a ring identity valid on the
-whole filter $\ell\times\ell$; no case split on the relative positions of
-$p_{1}$, $p_{2}$ and $a$ is required, because the subtraction of the two
-Little-$o$ terms is done \emph{before} the interval is split. The
-FTC-filter properties $\ell\le\mathsf{nhds}(a)$ and 
-$\mathsf{pure}(a)\le\ell$ (\hyperlink{thm:purele}{Thm 12}) together with 
-\hyperlink{thm:toIxx}{Thm 13} guarantee that the two one-sided statements
-are available on the same filter $\ell\times\ell$; this is the only role of
-the FTC structure in the reduction. The full tactic-level argument is in 
-\textsf{FundThmCalculus.lean}, L261--L272.
+whole filter $\ell\times\ell$; no case split on the relative positions of $%
+p_{1}$, $p_{2}$ and $a$ is required, because the subtraction of the two
+Little-$o$ terms is done \emph{before} the interval is split. The FTC-filter
+properties $\ell\le\mathsf{nhds}(a)$ and $\mathsf{pure}(a)\le\ell$ (
+\hyperlink{thm:purele}{Thm 12}) together with \hyperlink{thm:toIxx}{Thm 13}
+guarantee that the two one-sided statements are available on the same filter 
+$\ell\times\ell$; this is the only role of the FTC structure in the
+reduction. The full tactic-level argument is in \textsf{FundThmCalculus.lean}%
+, L261--L272.
 \end{enumerate}
 
 \section{Scripts}
+
 \label{sec:scripts}
 
 \subsection{Tree Proofs Dependencies}
+
 \label{sec:tree}
 
 \noindent A depth-5 dependency tree of the one-sided theorem \textsf{%
@@ -879,16 +842,16 @@ already expanded earlier in the tree; \textsf{(cycle)} marks a definitional
 self-reference. Aggregate statistics of the underlying graph are maintained
 in \cite{mathlib-stats}.
 
-\noindent \noindent Because the depth-5 closure of this declaration contains on the
-order of $10^{5}$ nodes, the tree below is a short excerpt (approximately $%
-200$ lines) chosen so that all three kernel axioms reached by the closure
---- \textsf{funext}, \textsf{Quot\allowbreak.sound} and \textsf{propext}
---- are directly visible inside it. The full depth-5 tree is provided as
-an electronic supplement (\textsf{FLT2.tree.depth5.txt}); the excerpt
-below is a self-contained prefix of it, closed off by the
-\textsf{Asymptotics.IsLittleO.sub} branch that reaches \textsf{propext}.
+\noindent \noindent Because the depth-5 closure of this declaration contains
+on the order of $10^{5}$ nodes, the tree below is a short excerpt
+(approximately $200$ lines) chosen so that all three kernel axioms reached
+by the closure --- \textsf{funext}, \textsf{Quot\allowbreak.sound} and 
+\textsf{propext} --- are directly visible inside it. The full depth-5 tree
+is provided as an electronic supplement (\textsf{FLT2.tree.depth5.txt}); the
+excerpt below is a self-contained prefix of it, closed off by the \textsf{%
+Asymptotics.IsLittleO.sub} branch that reaches \textsf{propext}.
 
-\text{ \ } \setstretch{1}\text{ \ }  
+\text{ \ } \setstretch{1}\text{ \ } 
 \begin{verbatimbox}
 ============================================================
 Dependency tree for: intervalIntegral.measure_integral_sub_linear_isLittleO_of_tendsto_ae
@@ -1070,31 +1033,33 @@ Generating dependency tree for: intervalIntegral.measure_integral_sub_linear_isL
 Done. Written to: FLT2.tree.depth5.txt
 ============================================================
 \end{verbatimbox}
-\text{ \ } \setstretch{1.5}\text{ \ } 
+\text{ \ } \setstretch{1.5}\text{ \ }
 
 \subsection{Lean Proof Skeleton}
+
 \label{sec:lean-skeleton}
 
 \noindent The informal proof above corresponds to the following Lean~4
 skeleton. It follows the structure of the actual Mathlib proof in \textsf{%
 Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean}
 (L261--L272) \cite{mathlib4-fundthm}, specialized to the case where both
-endpoints tend to the same point $a$, at Mathlib commit \mathlibsha{}. The signatures used in the skeleton are
-documented in \cite{mathlib4-docs}. Both of the bugs identified in earlier
-drafts --- the reversed bounds on \textsf{hL}, and the false inequality
-$\lvert p_1 - a\rvert + \lvert p_2 - a\rvert \le \lvert p_2 - p_1\rvert$
---- are corrected here. The linear correction term is placed \emph{outside}
-the integral, matching Mathlib. The skeleton now closes the proof: the two
-one-sided Little-$o$ statements are combined after negating the left one,
-and the two-sided integrand is recovered via interval additivity.
+endpoints tend to the same point $a$, at Mathlib commit \texttt{0c1d5a7e}{}.
+The signatures used in the skeleton are documented in \cite{mathlib4-docs}.
+Both of the bugs identified in earlier drafts --- the reversed bounds on 
+\textsf{hL}, and the false inequality $\lvert p_1 - a\rvert + \lvert p_2 -
+a\rvert \le \lvert p_2 - p_1\rvert$ --- are corrected here. The linear
+correction term is placed \emph{outside} the integral, matching Mathlib. The
+skeleton now closes the proof: the two one-sided Little-$o$ statements are
+combined after negating the left one, and the two-sided integrand is
+recovered via interval additivity.
 
 \noindent\textbf{Notation.} The assumption \textsf{[FTCFilter l a]}
-appearing in the verbatim Lean code below is a typeclass instance argument:
-\textsf{FTCFilter} is a two-argument predicate, and the brackets are Lean~4's
-notation for instance parameters. The same spelling
-\textsf{[FTCFilter}$\;\ell\;a$\textsf{]} is used in the statement tables of
-Section~\ref{sec:statements}; the correspondence is fixed by the Note on
-\hyperlink{def:FTCF}{Def 4} in Section~\ref{sec:definitions}.
+appearing in the verbatim Lean code below is a typeclass instance argument: 
+\textsf{FTCFilter} is a two-argument predicate, and the brackets are
+Lean~4's notation for instance parameters. The same spelling \textsf{%
+[FTCFilter}$\;\ell\;a$\textsf{]} is used in the statement tables of Section~%
+\ref{sec:statements}; the correspondence is fixed by the Note on \hyperlink{def:FTCF}%
+{Def 4} in Section~\ref{sec:definitions}.
 
 \text{ \ } \setstretch{1}\text{ \ } 
 \begin{verbatimbox}
@@ -1150,10 +1115,11 @@ theorem
   rw [hLHS, hRHS] at hsum
   exact hsum
 \end{verbatimbox}
-\text{ \ } \setstretch{1.5}\text{ \ } 
+\text{ \ } \setstretch{1.5}\text{ \ }
 
-\noindent The four version-dependent lemmas invoked by the skeleton
-resolve as follows against Mathlib commit \mathlibsha{} , as printed by \textsf{\#check}:
+\noindent The four version-dependent lemmas invoked by the skeleton resolve
+as follows against Mathlib commit \texttt{0c1d5a7e}{} , as printed by 
+\textsf{\#check}:
 
 \text{ \ } \setstretch{1}\text{ \ } 
 \begin{verbatimbox}
@@ -1172,16 +1138,17 @@ resolve as follows against Mathlib commit \mathlibsha{} , as printed by \textsf{
 --   IntervalIntegrable f a b mu -> IntervalIntegrable f b c mu ->
 --     (integral a b f + integral b c f) = integral a c f
 \end{verbatimbox}
-\text{ \ } \setstretch{1.5}\text{ \ } 
+\text{ \ } \setstretch{1.5}\text{ \ }
 
 \noindent\textbf{Verification.} The skeleton above type-checks against
-Mathlib commit \mathlibsha{}. Copying the
-skeleton verbatim into a fresh Lean~4 file, together with the imports of
-\textsf{Mathlib.MeasureTheory.\allowbreak  Integral.IntervalIntegral.\allowbreak FundThmCalculus},
-yields a proof term for the outer theorem
-\textsf{measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_integral\allowbreak
-\_sub\allowbreak\_linear\allowbreak\_is\allowbreak LittleO\allowbreak\_of\allowbreak
-\_tendsto\allowbreak\_ae} whose \textsf{\#print\ axioms} output is:
+Mathlib commit \texttt{0c1d5a7e}{}. Copying the skeleton verbatim into a
+fresh Lean~4 file, together with the imports of \textsf{%
+Mathlib.MeasureTheory.\allowbreak Integral.IntervalIntegral.\allowbreak
+FundThmCalculus}, yields a proof term for the outer theorem \textsf{%
+measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_integral\allowbreak
+\_sub\allowbreak\_linear\allowbreak\_is\allowbreak
+LittleO\allowbreak\_of\allowbreak \_tendsto\allowbreak\_ae} whose \textsf{%
+\#print\ axioms} output is:
 
 \text{ \ } \setstretch{1}\text{ \ } 
 \begin{verbatimbox}
@@ -1190,20 +1157,21 @@ yields a proof term for the outer theorem
 -- 'intervalIntegral.measure_integral_sub_integral_sub_linear_isLittleO_of_tendsto_ae'
 --   depends on axioms: [propext, Quot.sound]
 \end{verbatimbox}
-\text{ \ } \setstretch{1.5}\text{ \ } 
+\text{ \ } \setstretch{1.5}\text{ \ }
 
 \noindent In other words, the skeleton uses only the kernel axioms already
 present in the one-sided statement, and adds no new axiom dependencies. The
-composite \textsf{hL.neg\allowbreak\_left.neg\allowbreak\_right} chains
-\hyperlink{lem:negleft}{Lem~2} and \hyperlink{lem:negright}{Lem~2$'$}: \textsf{neg\allowbreak\_left} negates the function and
-\textsf{neg\allowbreak\_right} negates the bound. The lemma
-\textsf{interval\allowbreak Integral.integral\allowbreak\_symm} rewrites
-$\int y \;\textsf{in}\;p_1..a,\;f(y)$ to
-$-\int y \;\textsf{in}\;a..p_1,\;f(y)$. This construction mirrors the
-sign-flip carried out in \textsf{FundThmCalculus.lean}, L261--L272
-\cite{mathlib4-fundthm}.
+composite \textsf{hL.neg\allowbreak\_left.neg\allowbreak\_right} chains 
+\hyperlink{lem:negleft}{Lem~2} and \hyperlink{lem:negright}{Lem~2$^{\prime }$%
+}: \textsf{neg\allowbreak\_left} negates the function and \textsf{%
+neg\allowbreak\_right} negates the bound. The lemma \textsf{%
+interval\allowbreak Integral.integral\allowbreak\_symm} rewrites $\int y \;%
+\mathsf{in}\;p_1..a,\;f(y)$ to $-\int y \;\mathsf{in}\;a..p_1,\;f(y)$. This
+construction mirrors the sign-flip carried out in \textsf{%
+FundThmCalculus.lean}, L261--L272 \cite{mathlib4-fundthm}.
 
 \subsection{Python Algorithms}
+
 \label{sec:python}
 
 \noindent \setstretch{1.5}The tree was produced by \textsf{gen\allowbreak
@@ -1856,16 +1824,17 @@ print(f"  {n_leaf:,} terminal nodes ({LEAF_MARKER})")
 \setstretch{1}
 
 \section{Tables}
+
 \label{sec:tables}
 
 \subsection{Timeline}
+
 \label{sec:timeline}
 
-\noindent Key dates in the formalisation of FTC \cite%
-{mathlib-stats, mathlib4}.\text{ \ }\newline
+\noindent Key dates in the formalisation of FTC \cite{mathlib-stats,
+mathlib4}.\text{ \ }\newline
 \text{ \ }\newline
-\setstretch{1.3}
-$%
+\setstretch{1.3} $%
 \begin{array}{|T|S|L|K|}
 \hline
 \hypertarget{tl:2013}{\textbf{2013}} &
@@ -1897,49 +1866,51 @@ mathlib4 naming conven\allowbreak tion &
 gener\allowbreak al Lit\allowbreak tle-$o$ FTC-2 stabil\allowbreak ised &
 \textsf{measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_integral\allowbreak\_sub\allowbreak\_linear\allowbreak\_is\allowbreak LittleO\allowbreak\_of\allowbreak\_tendsto\allowbreak\_ae} &
 \textsf{math\allowbreak lib4} \\ \hline
-\end{array}$ 
-\setstretch{1}
+\end{array}$ \setstretch{1}
+
 \subsection{Classifications}
+
 \label{sec:classifications}
 
 \noindent Every node of the depth-5 tree falls into one of four classes.
-
-\text{ \ }\newline
-\noindent$%
+\text{ \  \ }\newline
+\text{ \  \ }\newline
+$%
 \begin{array}{|T|S|L|K|}
 \hline
-\hypertarget{cl:thm}{\textbf{Thm}} &
-$\approx 25$ substantive nodes & 
-\textsf{measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_linear\allowbreak\_is\allowbreak LittleO\allowbreak\_of\allowbreak\_tendsto\allowbreak\_ae} &
-\textsf{mathe\allowbreak matical con\allowbreak tent} \\ \hline
-\hypertarget{cl:lem}{\textbf{Lem}} &
-many tech\allowbreak nical steps &
-\textsf{Is\allowbreak LittleO.add\allowbreak\_add},\;\textsf{Filter.mp\allowbreak\_mem} &
-\textsf{tech\allowbreak nical steps} \\ 
-\end{array}$
-
-\noindent$%
-\begin{array}{|T|S|L|K|}
-\hline
-\hypertarget{cl:def}{\textbf{Def}} &
-domin\allowbreak ant class &
-\textsf{Interval\allowbreak Integrable},\;\textsf{FTC\allowbreak Filter},\;\textsf{Normed\allowbreak AddCommGroup} &
-\textsf{type\allowbreak class clo\allowbreak sure} \\ \hline
 \hypertarget{cl:ax}{\textbf{Ax}} &
 2 visible at depth~5 in excerpt; 3 reached overall &
 \textsf{funext},\;\textsf{Quot\allowbreak.sound};\;
 \textsf{propext} (supplement) &
 \textsf{ker\allowbreak nel ax\allowbreak ioms} \\ \hline
-\end{array}$ \noindent \text{ \ }\newline
+\hypertarget{cl:def}{\textbf{Def}} &
+domin\allowbreak ant class &
+\textsf{Interval\allowbreak Integrable},\;\textsf{FTC\allowbreak Filter},\;\textsf{Normed\allowbreak AddCommGroup} &
+\textsf{type\allowbreak class clo\allowbreak sure} \\ \hline
+\end{array}$ \text{ \  \ }\newline\noindent $%
+\begin{array}{|T|S|L|K|}
+\hypertarget{cl:lem}{\textbf{Lem}} &
+many tech\allowbreak nical steps &
+\textsf{Is\allowbreak LittleO.add\allowbreak\_add},\;\textsf{Filter.mp\allowbreak\_mem} &
+\textsf{tech\allowbreak nical steps}
+\\ \hline
+\hypertarget{cl:thm}{\textbf{Thm}} &
+$\approx 25$ substantive nodes & 
+\textsf{measure\allowbreak\_integral\allowbreak\_sub\allowbreak\_linear\allowbreak\_is\allowbreak LittleO\allowbreak\_of\allowbreak\_tendsto\allowbreak\_ae} &
+\textsf{mathe\allowbreak matical con\allowbreak tent} 
+ \\ \hline
+\end{array}$
+
+\noindent \newline
 
 \subsection{Applications}
-\label{sec:applications}
-\setstretch{1.5}
-\noindent The general Little-$o$ form of FTC-2 above underpins:
-\setstretch{1.5}
-\text{ \ }\newline \text{ \ }
 
-\noindent$\begin{array}{|T|S|L|K|}
+\label{sec:applications} \setstretch{1.5} \noindent The general Little-$o$
+form of FTC-2 above underpins: \setstretch{1.5} \text{ \ }\newline
+\text{ \ }
+
+\noindent$%
+\begin{array}{|T|S|L|K|}
 \hline
 \hypertarget{ap:cov}{\textbf{App\,1}} &
 change of vari\allowbreak ables &
@@ -1971,21 +1942,19 @@ computes $\pi$ &
 $E$-valued Boch\allowbreak ner general\allowbreak isation &
 \textsf{MeasureTheory.integral}\;$[Complete\allowbreak Space\;E]$ &
 \textsf{Bochn\allowbreak er Integ\allowbreak ral FTC} \\ \hline
-\end{array}$ 
-\newpage
+\end{array}$ \newpage
 
 \section{Conclusion}
-\label{sec:conclusion}
-\noindent
-\setstretch{1.3}
-The Fundamental Theorem of Calculus in Mathlib is not a single
-theorem but a small hierarchy whose most general member is the Little-$o$
-statement \textsf{interval\allowbreak Integral.measure\allowbreak
-	\_integral\allowbreak\_sub\allowbreak\_integral\allowbreak\_sub\allowbreak
-	\_linear\allowbreak\_is\allowbreak LittleO\allowbreak\_of\allowbreak
-	\_tendsto\allowbreak\_ae}. From it one derives the classical derivative form 
+
+\label{sec:conclusion} \noindent \setstretch{1.3} The Fundamental Theorem of
+Calculus in Mathlib is not a single theorem but a small hierarchy whose most
+general member is the Little-$o$ statement \textsf{interval\allowbreak
+Integral.measure\allowbreak
+\_integral\allowbreak\_sub\allowbreak\_integral\allowbreak\_sub\allowbreak
+\_linear\allowbreak\_is\allowbreak LittleO\allowbreak\_of\allowbreak
+\_tendsto\allowbreak\_ae}. From it one derives the classical derivative form 
 \textsf{interval\allowbreak Integral.integral\allowbreak\_eq\allowbreak
-	\_sub\allowbreak\_of\allowbreak\_has\allowbreak Deriv\allowbreak At} and the
+\_sub\allowbreak\_of\allowbreak\_has\allowbreak Deriv\allowbreak At} and the
 one-sided variants \textsf{\_left} and \textsf{\_right}. The dependency tree
 in Section~\ref{sec:tree} makes this structure explicit.
 
@@ -1993,91 +1962,90 @@ in Section~\ref{sec:tree} makes this structure explicit.
 of $10^{5}$ nodes. Two of the three kernel axioms reachable in the closure
 --- \textsf{funext} and \textsf{Quot\allowbreak.sound} --- are visible in
 the printed excerpt; \textsf{propext} appears immediately beyond it on the 
-\textsf{Asymptotics.IsLittleO.sub} branch. \textsf{Classical%
-	\allowbreak.choice} is not reached. The same methodology --- extract the
+\textsf{Asymptotics.IsLittleO.sub} branch. \textsf{Classical
+\allowbreak.choice} is not reached. The same methodology --- extract the
 dependency tree, cross-check signatures against the documentation \cite%
 {mathlib4-docs}, and inspect the kernel-axiom closure --- applies to any
 other theorem in the library \cite{mathlib4, mathlibgraph2026}. The Lean
 skeleton of Section~\ref{sec:lean-skeleton} has been type-checked against
-Mathlib commit \mathlibsha{} and introduces no new axiom dependencies
+Mathlib commit \texttt{0c1d5a7e}{} and introduces no new axiom dependencies
 beyond those already present in the one-sided statement.
 
+\begin{thebibliography}{99}
+\bibitem{close2026axiom} Larsen James Close. \newblock
+The Axiom Profile of Mathlib. \newblock
+Zenodo, 2026. \newblock
+DOI: \texttt{10.5281/zenodo.20710920}. \newblock
+\url{https://zenodo.org/records/20710921}.
 
+\medskip
 
+\bibitem{deepseek-chat} DeepSeek. \newblock
+DeepSeek Chat. \newblock
+Conversational assistant used to assemble the exposition, cross-check the 
+statement signatures against the Mathlib source, and prepare the LaTeX 
+source of this paper. \newblock
+\url{https://chat.deepseek.com}.
 
-\begin{thebibliography}{9}
-	
-	\bibitem{close2026axiom}  Larsen James Close. \newblock
-	The Axiom Profile of Mathlib. \newblock
-	Zenodo, 2026. \newblock
-	DOI: \texttt{10.5281/zenodo.20710920}. \newblock
-	\url{https://zenodo.org/records/20710921}.
-	
-	\medskip
-	
-	\bibitem{deepseek-chat}  DeepSeek. \newblock
-	DeepSeek Chat. \newblock
-	Conversational assistant used to assemble the exposition, cross-check the
-	statement signatures against the Mathlib source, and prepare the LaTeX
-	source of this paper. \newblock
-	\url{https://chat.deepseek.com}.
-	
-	\medskip
-	
-	\bibitem{mathlib-stats}  Lean community. \newblock
-	Mathlib statistics. \newblock
-	\url{https://leanprover-community.github.io/mathlib_stats.html}.
-	
-	\medskip
-	
-	\bibitem{mathlib4}  The mathlib Community. \newblock
-	The Lean mathematical library. \newblock
-	Source repository, GitHub. \newblock
-	\url{https://github.com/leanprover-community/mathlib4}.
-	
-	\medskip
-	
-	\bibitem{mathlib4-docs}  The mathlib Community. \newblock
-	Mathlib4 documentation browser. \newblock
-	Online reference for every declaration in Mathlib; used to locate the
-	signatures and dependency edges of the theorems in this paper, and
-	recommended as the entry point for analogous dependency-guided expositions
-	of other theorems in the same library. \newblock
-	\url{https://leanprover-community.github.io/mathlib4_docs/}.
-	
-	\medskip
-	
-	\bibitem{mathlib4-fundthm}  The mathlib Community. \newblock
-	\texttt{Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean}. \newblock
-	Mathlib4 source file containing the two-sided Little-$o$ FTC-2 and the
-	one-sided reduction used in Section~\ref{sec:proofs} and
-	Section~\ref{sec:scripts}. \newblock
-	Pinned to commit \mathlibsha{}. \newblock
-	\url{https://github.com/leanprover-community/mathlib4/blob/\mathlibsharaw/Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean}.
-	
-	\medskip
-	
-	\bibitem{mathlibgraph}  Xinze Li and Patrick Shafto. \newblock
-	The Multinetwork of Mathlib. \newblock
-	NeurIPS 2026 Datasets and Benchmarks Track, 2026. Under review. \newblock
-	Dataset file: \texttt{mathlib\_edges.csv}. \newblock
-	\url{https://huggingface.co/datasets/MathNetwork/MathlibGraph/resolve/main/mathlib_edges.csv}.
-	
-	\medskip
-	
-	\bibitem{mathlibgraph2026}  Xinze Li and Patrick Shafto. \newblock
-	MathlibGraph: The Multinetwork of Mathlib. \newblock
-	Hugging Face dataset, 2026. \newblock
-	\url{https://huggingface.co/datasets/MathNetwork/MathlibGraph}.
-	
-	\medskip
-	
-	\bibitem{network-structure-mathlib}  Xinze Li, Nanyun Peng, Simone Severini,
-	and Patrick Shafto. \newblock
-	The Network Structure of Mathlib. \newblock
-	arXiv:2604.24797, 2026. \newblock
-	\url{https://arxiv.org/abs/2604.24797}.
-	
+\medskip
+
+\bibitem{mathlib-stats} Lean community. \newblock
+Mathlib statistics. \newblock
+\url{https://leanprover-community.github.io/mathlib_stats.html}.
+
+\medskip
+
+\bibitem{mathlib4} The mathlib Community. \newblock
+The Lean mathematical library. \newblock
+Source repository, GitHub. \newblock
+\url{https://github.com/leanprover-community/mathlib4}.
+
+\medskip
+
+\bibitem{mathlib4-docs} The mathlib Community. \newblock
+Mathlib4 documentation browser. \newblock
+Online reference for every declaration in Mathlib; used to locate the 
+signatures and dependency edges of the theorems in this paper, and 
+recommended as the entry point for analogous dependency-guided expositions 
+of other theorems in the same library. \newblock
+\url{https://leanprover-community.github.io/mathlib4_docs/}.
+
+\medskip
+
+\bibitem{mathlib4-fundthm} The mathlib Community. \newblock
+\texttt{Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean}%
+. \newblock
+Mathlib4 source file containing the two-sided Little-$o$ FTC-2 and the 
+one-sided reduction used in Section~\ref{sec:proofs} and  Section~\ref%
+{sec:scripts}. \newblock
+Pinned to commit \texttt{0c1d5a7e}{}. \newblock
+\url{https://github.com/leanprover-community/mathlib4/blob/%
+\mathlibsharaw/Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean}%
+.
+
+\medskip
+
+\bibitem{mathlibgraph} Xinze Li and Patrick Shafto. \newblock
+The Multinetwork of Mathlib. \newblock
+NeurIPS 2026 Datasets and Benchmarks Track, 2026. Under review. \newblock
+Dataset file: \texttt{mathlib\_edges.csv}. \newblock
+\url{https://huggingface.co/datasets/MathNetwork/MathlibGraph/resolve/main/mathlib_edges.csv}%
+.
+
+\medskip
+
+\bibitem{mathlibgraph2026} Xinze Li and Patrick Shafto. \newblock
+MathlibGraph: The Multinetwork of Mathlib. \newblock
+Hugging Face dataset, 2026. \newblock
+\url{https://huggingface.co/datasets/MathNetwork/MathlibGraph}.
+
+\medskip
+
+\bibitem{network-structure-mathlib} Xinze Li, Nanyun Peng, Simone Severini, 
+and Patrick Shafto. \newblock
+The Network Structure of Mathlib. \newblock
+arXiv:2604.24797, 2026. \newblock
+\url{https://arxiv.org/abs/2604.24797}.
 \end{thebibliography}
 
 \end{document}
